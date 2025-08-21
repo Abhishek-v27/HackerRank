@@ -1,0 +1,20 @@
+int closestNumber(int a, int b, int x) {
+    long long p = (long long)round(pow(a, b));  // compute a^b
+    long long low = (p / x) * x;                 // multiple of x <= p
+    long long high;
+
+    if (p >= 0) 
+        high = low + x; 
+    else 
+        high = low - x;
+
+    long long diffLow = llabs(p - low);
+    long long diffHigh = llabs(high - p);
+
+    if (diffLow < diffHigh) 
+        return (int)low;
+    else if (diffLow > diffHigh) 
+        return (int)high;
+    else 
+        return (int)high;   // if tie, return the higher one
+}
