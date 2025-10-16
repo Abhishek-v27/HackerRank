@@ -1,0 +1,60 @@
+bool isKaprekar(long long n) {
+    if (n == 1) return true; // 1 is a special case: 1^2 = 1. Split (0, 1). 0 + 1 = 1.
+
+    // 1. Calculate the square of the number
+    long long sq = n * n;
+    
+    // 2. Determine the number of digits in n (used for splitting)
+    int d = 0;
+    long long temp = n;
+    while (temp > 0) {
+        temp /= 10;
+        d++;
+    }
+    
+    // 3. Determine the power of 10 to split the square
+    // The right part (r) should have 'd' digits.
+    long long power_of_10 = 1;
+    for (int i = 0; i < d; i++) {
+        power_of_10 *= 10;
+    }
+    
+    // 4. Split the square: 
+    // r (right part) is the last 'd' digits.
+    long long r = sq % power_of_10; 
+    
+    // l (left part) is the remaining digits.
+    long long l = sq / power_of_10; 
+
+    // 5. Check the condition
+    // The sum of the parts equals the original number, and the right part is non-zero (since n > 1)
+    if (l + r == n) {
+        return true;
+    }
+    
+    return false;
+}
+
+/**
+ * @brief Prints all Kaprekar numbers in the inclusive range [p, q].
+ * * @param p The starting number of the range.
+ * @param q The ending number of the range.
+ */
+void kaprekarNumbers(int p, int q) {
+    bool found = false;
+
+    // Iterate through the range [p, q]
+    for (long long i = p; i <= q; i++) {
+        if (isKaprekar(i)) {
+            printf("%lld ", i);
+            found = true;
+        }
+    }
+
+    // If no Kaprekar numbers were found in the range, print "INVALID RANGE"
+    if (!found) {
+        printf("INVALID RANGE\n");
+    } else {
+        printf("\n"); // Print a newline character after the list of numbers
+    }
+}
